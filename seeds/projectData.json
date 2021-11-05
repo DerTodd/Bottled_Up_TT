@@ -1,20 +1,17 @@
 [
   {
-    "id": 1,
     "name": "MVC",
     "description": "Model, View, Client",
     "date_created": "10/31/2021"
     
   },
   {
-    "id": 2,
     "name": "Testing",
     "desrciption": "Jest allows you to test functions",
     "date_created": "10/31/2021"
     
   },
   {
-    "id": 3,
     "name": "SQL",
     "description": "Databases that are used to hold data",
     "date_created": "10/31/2021"

@@ -1,17 +1,17 @@
 [
   {
-    "name": "Brian",
-    "email": "brian@email.com",
-    "password": "passwordGen"
+    "username": "Brian",
+    "email": "brian@test.com",
+    "password": "password123"
   },
   {
-    "name": "Alex",
-    "email": "alex@email.com",
-    "password": "passwordGen"
+    "username": "Alex",
+    "email": "alex@test.com",
+    "password": "password123"
   },
   {
-    "name": "Chuck",
-    "email": "chuck@email.com",
-    "password": "passwordGen"
+    "username": "Chuck",
+    "email": "chuck@test.com",
+    "password": "password123"
   }
 ]
