@@ -5,19 +5,15 @@
     <h2>
       <!-- Call helper function with triple brackets to render the emoji span as HTML -->
       {{{get_emoji}}}
-      <a href="/project/{{post.id}}">{{post.name}}</a>
+      <a href="/post/{{post.id}}">{{post.name}}</a>
     </h2>
     <p>
       {{post.post_content}}
     </p>
-    <p>Created by {{post.user.username}} on {{format_date post.date_created}}</p>
+    <p>Created {{format_date post.date_created}}</p>
   </div>
-  <div class="col-md-7">
-    <p>
-      COMMENTS GO HERE
-    </p>
-  </div>
+  
 </div>
 {{/each}}
 
-
+<h2>HOMEPAGE</h2>
