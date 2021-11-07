@@ -48,27 +48,56 @@ router.get('/post/:id', async (req, res) => {
     res.status(500).json(err);
   }
 });
+router.get('/edit/:id', async (req, res) => {
+  try {
+    const postData = await Post.findByPk(req.params.id, {
+  
+//post include foreign key table User give the user information tied to the post
+      include: [
+        User,
+        {
+//We also need to comment data so we call that model and say to include its foreign key for users          
+          model: Comment,
+          include: [User],
+        },
+      ]
+
+    });
+    
+    const post = postData.get({ plain: true });
+    console.log(post)
+    res.render('edit', {
+      ...post,
+      logged_in: req.session.logged_in
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 // Use withAuth middleware to prevent access to route
 router.get('/posts', withAuth, async (req, res) => {
   try {
-    // Find the logged in user based on the session ID
+    //Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
-      attributes: { exclude: ['password'] },
-      //include:Comment// [{ model: Post }],
     });
-
+    const identity = req.session.user_id
+    console.log(identity)
     const user = userData.get({ plain: true });
     console.log(user)
-    //const userPosts = await Post.findAll({
-      
-    //});
-    // const posts = userPosts.get({ plain: true })
-    // console.log(posts)
+    const postData = await Post.findAll({
+      where: {
+        user_id: identity
+      }
+    });
+
+    // Serialize data so the template can read it
+    const posts = postData.map((post) => post.get({ plain: true }));
+    console.log(posts)
     res.render('dashboard', {
-      //posts: posts,
+      posts: posts,
       ...user,
-      logged_in: true,
+      logged_in: req.session.logged_in
     });
   } catch (err) {
     res.status(500).json(err);
