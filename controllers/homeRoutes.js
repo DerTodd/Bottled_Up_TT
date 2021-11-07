@@ -6,19 +6,7 @@ router.get('/', async (req, res) => {
   try {
     // Get all posts and JOIN with user data
     const postData = await Post.findAll({
-      // include:Comment,
-      // include:User,
-      // include:Comment,
-      include: [
-        {
-        //   include:User,
-        //  include:Comment
-          model: User,
-          attributes: ['username'],
-          model: Comment,
-          attributes: ['comment_text', 'date_created']
-        },
-      ],
+      include:User,
     });
 
     // Serialize data so the template can read it
@@ -37,25 +25,17 @@ router.get('/', async (req, res) => {
 router.get('/post/:id', async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id, {
-      // include: [
-      //   {model: Comment, //attributes: [id,],
-      //     include: [ 
-      //     {model: User, //attributes:[id, username]
-      //     }]
-      //   }
-      //include: Comment, through: User,
-      include: User, through: Comment  
-      //include: Comment,
-      //include: User, //through: Comment
-      //   {
-      //include:User,
-      //     //  include:Comment
-      //       model: User,
-      //       attributes: ['username'],
-      //       model: Comment,
-      //       attributes: ['comment_text', 'date_created']
-      //     },
-      // ],
+  
+//post include foreign key table User give the user information tied to the post
+      include: [
+        User,
+        {
+//We also need to comment data so we call that model and say to include its foreign key for users          
+          model: Comment,
+          include: [User],
+        },
+      ]
+
     });
     
     const post = postData.get({ plain: true });
@@ -75,19 +55,26 @@ router.get('/posts', withAuth, async (req, res) => {
     // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
-      include: [{ model: Post }],
+      //include:Comment// [{ model: Post }],
     });
 
     const user = userData.get({ plain: true });
-
+    console.log(user)
+    //const userPosts = await Post.findAll({
+      
+    //});
+    // const posts = userPosts.get({ plain: true })
+    // console.log(posts)
     res.render('dashboard', {
+      //posts: posts,
       ...user,
-      logged_in: true
+      logged_in: true,
     });
   } catch (err) {
     res.status(500).json(err);
   }
 });
+
 
 
 router.get('/login', (req, res) => {
@@ -108,7 +95,7 @@ router.get('/dashboard', (req, res) => {
     return;
   }
 
-  res.render('dashboard');
+  res.render('login');
 });
 
 router.get('/signup', (req, res) => {
