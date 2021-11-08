@@ -1,10 +1,10 @@
 const newFormHandler = async (event) => {
   event.preventDefault();
-  alert("create post")
+  //alert("create post")
   const name = document.querySelector('#post_name').value.trim();
   const post_content = document.querySelector('#post_content').value.trim();
-alert(name)
-alert(post_content)
+//alert(name)
+//alert(post_content)
   if (name && post_content) {
     const response = await fetch(`/api/posts`, {
       method: 'POST',
