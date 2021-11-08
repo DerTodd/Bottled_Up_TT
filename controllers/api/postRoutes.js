@@ -28,6 +28,26 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.post('/edit/:id', async (req, res) => {
+  try {
+    console.log(req.body)
+    const updatePost = await Post.update(
+      //...req.body,
+      
+      //where: {id: req.params.id,}
+      { name: req.body.name,
+    post_content: req.body.post_content,
+    },
+
+    { where: { id: req.body.id } }
+    );
+
+    res.status(200).json(updatePost);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
 router.delete('/:id', withAuth, async (req, res) => {
   try {
     const postData = await Post.destroy({
